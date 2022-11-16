@@ -36,7 +36,6 @@ const searchUrl = (url_id) => {
 }
 
 const addUrlList = (url) => {
-  console.log(urlList);
   let searchUrl = urlList.filter(({original_url}) => original_url == url)
 
   if(searchUrl.length == 0){
@@ -52,19 +51,19 @@ const addUrlList = (url) => {
 
   return searchUrl[0]
 
-
 }
 
 const checkUrl = (req, res, next) => {
 	let url = req.body.url
 	let regex = /^https?:\/\//
 	let new_url = url.replace(regex, '')
-
+  console.log(url);
 	if(!regex.test(url)){
 	  return res.send({error: 'invalid url'})
 	}
 	
 	dns.lookup(new_url, {all: true}, (err, add) => {
+    console.log(err);
 		if(err) return res.send({error: 'invalid url'});
 		next()
 	})
